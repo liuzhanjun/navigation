@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TrapezoidalView">
+        <attr name="trap_color" format="color"/>
+        <attr name="ratio_tw_bw" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="RadiusRelativelayout">
+        <attr name="corner_radius" format="dimension" />
+    </declare-styleable>
+</resources>
