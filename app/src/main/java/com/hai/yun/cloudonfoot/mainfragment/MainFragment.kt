@@ -55,7 +55,9 @@ class MainFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        map.onSaveInstanceState(outState)
+        if (map!=null) {
+            map.onSaveInstanceState(outState)
+        }
     }
 
     override fun onCreateView(

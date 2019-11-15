@@ -4,14 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import com.hai.yun.cloudonfoot.utils.DimenUtils
-import com.hai.yun.cloudonfoot.utils.println
-import androidx.core.view.ViewCompat.getMatrix
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import java.util.*
-import androidx.core.view.ViewCompat.getMatrix
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import com.lzj.kotlinandroidnotes.views.utils.DimenUtils
 
 
 class PieView : View {
@@ -38,7 +31,8 @@ class PieView : View {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
         initPaint()
-        DimenUtils(context).let {
+        DimenUtils.let {
+            it.getContext(context)
             interval = it.getDpMapPx(interval.toInt())
             textSize = it.getDpMapPx(textSize.toInt())
         }
@@ -93,7 +87,6 @@ class PieView : View {
         if (canvas != null) {
             //将坐标移动到中心
             canvas.translate(mWidth / 2f, mHeight / 2f)
-            println("canvas======matrix" + canvas.matrix.toString())
             //画圆
             canvas.drawCircle(0f, 0f, radius, paint)
             //画主体

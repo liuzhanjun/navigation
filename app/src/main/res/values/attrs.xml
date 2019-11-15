@@ -8,4 +8,10 @@
     <declare-styleable name="RadiusRelativelayout">
         <attr name="corner_radius" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="RemoteControlMenu">
+        <attr name="backColor" format="color"/>
+        <attr name="arcHight" format="dimension"/>
+        <attr name="interval" format="dimension"/>
+    </declare-styleable>
 </resources>

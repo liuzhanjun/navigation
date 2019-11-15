@@ -1,27 +1,39 @@
 package com.hai.yun.cloudonfoot
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.amap.api.col.stln3.it
+import com.example.android.navigationadvancedsample.setupWithNavController
 import com.hai.yun.cloudonfoot.permission.PermissionUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    lateinit var navController: NavController
+    private var currentNavController: LiveData<NavController>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navController = nav_host_fragment.findNavController()
-        bottom_nav.setupWithNavController(navController)
+
+
         //底部导航切换
-        navgationListener()
+        if (savedInstanceState == null) {
+
+        }
+
 
 
         requestPermisses()
@@ -43,6 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        navgationListener()
     }
 
     override fun onRequestPermissionsResult(
@@ -64,31 +77,43 @@ class MainActivity : AppCompatActivity() {
 
     private fun navgationListener() {
 
-        bottom_nav.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.navigation_home -> {
-                    navController.navigate(R.id.mainFragment)
-                    true
-                }
-                R.id.navigation_lists -> {
-                    navController.navigate(R.id.deviceListFragment)
-                    true
-                }
-                R.id.navigation_warning -> {
-                    navController.navigate(R.id.warningListFragment)
-                    true
-                }
-                R.id.navigation_counts -> {
-                    navController.navigate(R.id.countFragment)
-                    true
-                }
-                R.id.navigation_personal -> {
-                    navController.navigate(R.id.personalFragment)
-                    true
-                }
-                else -> false
-            }
-        }
+        val navGraphIds = listOf(
+            R.navigation.nav_home,
+            R.navigation.nav_devices,
+            R.navigation.nav_warring,
+            R.navigation.nav_count,
+            R.navigation.nav_person
+        )
+        val itemIds = listOf(
+            R.id.navigation_home,
+            R.id.navigation_lists,
+            R.id.navigation_warning,
+            R.id.navigation_counts,
+            R.id.navigation_personal
+        )
+        val navControllers =
+            bottom_nav.setupWithNavController(
+                itemIds,
+                navGraphIds,
+                supportFragmentManager,
+                R.id.nav_host_container,
+                intent
+            )
+
+        navControllers.observe(this, Observer { navController ->
+            setupActionBarWithNavController(navController)
+        })
+
+        currentNavController = navControllers
 
     }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+    }
+
+//    override fun onSupportNavigateUp(): Boolean {
+//        return currentNavController?.value?.navigateUp() ?: false
+//    }
 }
